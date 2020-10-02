@@ -161,7 +161,7 @@ class MobileIdRestConnector implements MobileIdConnector
                 $this->logger->error("MID returned error code '" . $result . "'");
                 throw new MidInternalErrorException("MID returned error code '" . $result . "'");
         }
-        
+
     }
 
     private function postAuthenticationRequest(string $uri, AuthenticationRequest $request) : AuthenticationResponse
@@ -179,6 +179,10 @@ class MobileIdRestConnector implements MobileIdConnector
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		if ( isset( $this->clientConfig ) && !empty( $this->clientConfig ) )
+		{
+			curl_setopt( $ch, CURLOPT_INTERFACE, $this->clientConfig );
+		}
         curl_setopt($ch, CURLOPT_HTTPHEADER, $this->addCustomHeaders(array(
                 'Content-Type: application/json',
                 'Content-Length: ' . strlen($json)))
@@ -217,6 +221,10 @@ class MobileIdRestConnector implements MobileIdConnector
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		if ( isset( $this->clientConfig ) && !empty( $this->clientConfig ) )
+		{
+			curl_setopt( $ch, CURLOPT_INTERFACE, $this->clientConfig );
+		}
         curl_setopt($ch, CURLOPT_HTTPHEADER,
             $this->addCustomHeaders(array('Content-Type: application/json'))
         );
