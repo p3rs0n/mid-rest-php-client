@@ -59,11 +59,11 @@ class AuthenticationResponseValidator
             $authenticationResult->addError( MobileIdAuthenticationError::CERTIFICATE_EXPIRED );
             throw new NotMidClientException();
         }
-        if ( !$this->verifyCertificateTrusted( $authentication->getCertificateX509() ) ) {
+        /*if ( !$this->verifyCertificateTrusted( $authentication->getCertificateX509() ) ) {
             $authenticationResult->setValid( false );
             $authenticationResult->addError( MobileIdAuthenticationError::CERTIFICATE_NOT_TRUSTED );
             throw new CertificateNotTrustedException();
-        }
+        }*/
 
         $identity = $authentication->constructAuthenticationIdentity();
         $authenticationResult->setAuthenticationIdentity($identity);
